@@ -14,7 +14,7 @@ Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/)
 
 ## Example
 
-Pasting this code in an [Ipython Notebook](http://ipython.org/notebook.html) will generate an interactive timeseries plot.
+Pasting this code in an [Ipython Notebook](http://ipython.org/notebook.html) will generate an interactive timeseries plot:
 
     # Import pydygraphs and numpy
     import pydygraphs
