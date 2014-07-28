@@ -1,10 +1,10 @@
 PyDyGraphs
 -----
-An interactive charting library using [Dygraphs](http://dygraphs.com/) embedded in the [Ipython Notebook](http://ipython.org/notebook.html).
+An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Ipython Notebook](http://ipython.org/notebook.html)
 
 ## Intent
 
-The [Ipython Notebook](http://ipython.org/notebook.html) is an excelent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the [Ipython Notebook](http://ipython.org/notebook.html), interactive javascript plots are more desireable. This module can be readily included in an [Ipython Notebook](http://ipython.org/notebook.html) and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
+The [Ipython Notebook](http://ipython.org/notebook.html) is an excelent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the [Ipython Notebook](http://ipython.org/notebook.html), interactive javascript plots are often more useful for exploring the data. This module can be readily included in an [Ipython Notebook](http://ipython.org/notebook.html) and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
 
 ## How It Works
 
@@ -37,6 +37,6 @@ Running this code in an [Ipython Notebook](http://ipython.org/notebook.html) wil
     fig.show()
 
 ## Installation:
-Simply clone this repository and include the *pydygraphs.py* module in your project.
+Simply clone this repository and include the *pydygraphs.py* module in your [Ipython Notebooks](http://ipython.org/notebook.html).
 
 
