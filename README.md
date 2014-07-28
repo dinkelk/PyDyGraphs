@@ -20,20 +20,20 @@ Running this code in an [Ipython Notebook](http://ipython.org/notebook.html) wil
     import pydygraphs
     import numpy as np
 
-    # Subplot example
+    # Forma figure
     fig = pydygraphs.figure(width = 600, height = 400)
 
-    # Form data for plot
+    # Generate data for the plot
     x = np.array(range(100))
     y = [np.sin(np.random.rand(100)),-np.sin(np.random.rand(100))]
 
-    # Plot figure
+    # Plot the data on the figure
     fig.plot(x,y, color=['navy','magenta'])
     fig.title("Figure 1")
     fig.xlabel('Series')
     fig.ylabel('Value')
 
-    # Show figure:
+    # Show the figure in this cell of the notebook
     fig.show()
 
 ## Installation:
