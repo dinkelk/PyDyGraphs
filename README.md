@@ -9,7 +9,7 @@ An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [
 
 The [Ipython Notebook](http://ipython.org/notebook.html) is an excelent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the [Ipython Notebook](http://ipython.org/notebook.html), interactive javascript plots are often more useful for exploring the data. This module can be readily included in an [Ipython Notebook](http://ipython.org/notebook.html) and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
 
-[Screenshot](http://i.imgur.com/etR5a21.png)
+![Screenshot](http://i.imgur.com/etR5a21.png)
 
 ## How It Works
 
