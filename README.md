@@ -1,10 +1,15 @@
 PyDyGraphs
 -----
-An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Ipython Notebook](http://ipython.org/notebook.html)
+*Southwest Research Institute*
+![alt tag](http://www.boulder.swri.edu/clark/swrilogo.gif)
+
+An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Ipython Notebook](http://ipython.org/notebook.html), without the need for any remote hosting.
 
 ## Intent
 
 The [Ipython Notebook](http://ipython.org/notebook.html) is an excelent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the [Ipython Notebook](http://ipython.org/notebook.html), interactive javascript plots are often more useful for exploring the data. This module can be readily included in an [Ipython Notebook](http://ipython.org/notebook.html) and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
+
+![alt tag](http://imgur.com/etR5a21)
 
 ## How It Works
 
@@ -13,8 +18,7 @@ This python module generates javascript that interacts with the [Dygraphs](http:
 Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/) to generate a JSON representation of the data for plotting. This required dependancy may be removed with future work. [Pandas](http://pandas.pydata.org/) can be installed via [pip](https://pypi.python.org/pypi/pip).
 
 ## Example
-
-Pasting this code in an [Ipython Notebook](http://ipython.org/notebook.html) will generate an interactive timeseries plot:
+Run the included example:examples/PyDyGraphTester.ipynb, or  paste this code in an [Ipython Notebook](http://ipython.org/notebook.html) will generate an interactive timeseries plot:
 
     # Import pydygraphs and numpy
     import pydygraphs
