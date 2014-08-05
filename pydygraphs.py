@@ -7,6 +7,7 @@ import pandas as pd
 
 __PYDYGRAPH__FIGURE__NUMBER__ = 0
 __PYDYGRAPH__FIGURE__JSON__ = []
+__PYDYGRAPH__DYGRAPHS_LIB_STRING__ = "http://dygraphs.com/dygraph-combined.js"
 
 class __figure__:
     def __init__(self):
@@ -165,7 +166,7 @@ class __figure__:
 
 def __create_table_for_pydygraph_figure__(divname, width, height):
     return """
-    <script src="http://dygraphs.com/dygraph-combined.js"></script>
+    <script src=\"""" + str(__PYDYGRAPH__DYGRAPHS_LIB_STRING__) + """\"></script>
     <table style="width: """ + str(width) + """px; border-style: hidden;">
     <tr><td style="border-style: hidden;"><div id='"""+str(divname)+"""' style="width: """ + str(width) + """px; height: """ + str(height) + """px;"></div></td></tr>
     <tr><td style="border-style: hidden;"><div style="text-align:right; width: """ + str(width) + """px; height: auto;"; id='"""+str(divname)+"""_legend'></div></td></tr>
@@ -193,7 +194,7 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
     figureWidth = width/h
     figureHeight = height/v
 
-    javascript = """<script src="http://dygraphs.com/dygraph-combined.js"></script>
+    javascript = """<script src=\"""" + str(__PYDYGRAPH__DYGRAPHS_LIB_STRING__) + """\"></script>
                     <table style="width: """ + str(width) + """px; border-style: hidden;">"""
 
     # Generate optional subplot title:
@@ -225,6 +226,11 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
     
     # Return all the figure handles:
     return figs
+
+# Set a different remote or local dygraphs library than the default
+def useDygraphsLib(dygraphslib):
+    global __PYDYGRAPH__DYGRAPHS_LIB_STRING__
+    __PYDYGRAPH__DYGRAPHS_LIB_STRING__ = dygraphslib
 
 if __name__ == "__main__":
 	import argparse
