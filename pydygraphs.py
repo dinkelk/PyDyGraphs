@@ -50,6 +50,8 @@ class __figure__:
 
     def plot(self, x, y=[], ylabels=[], color=None, rangeselector=False, logscale=False, showroller=True):
 
+        if not isinstance(y,list):
+            y=[y]
         labelizer = lambda a: (map(lambda x: 'Y' + str(x), a))
 
         if not ylabels:
