@@ -26,7 +26,7 @@ This python module generates javascript that interacts with the [Dygraphs](http:
 Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/) to generate a JSON representation of the data for plotting. This required dependancy may be removed with future work. [Pandas](http://pandas.pydata.org/) can be installed via [pip](https://pypi.python.org/pypi/pip).
 
 ## Example
-Run the included example:examples/PyDyGraphTester.ipynb, or  paste this code in an [Ipython Notebook](http://ipython.org/notebook.html) will generate an interactive timeseries plot:
+Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into an [Ipython Notebook](http://ipython.org/notebook.html) to generate an interactive timeseries plot:
 
     # Import pydygraphs and numpy
     import pydygraphs
