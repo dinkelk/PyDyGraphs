@@ -1,5 +1,7 @@
 PyDyGraphs
 -----
+*Southwest Research Institute*
+![alt tag](http://www.boulder.swri.edu/clark/swrilogo.gif)
 
 An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Ipython Notebook](http://ipython.org/notebook.html), without the need for any remote hosting.
 
