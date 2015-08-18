@@ -34,12 +34,13 @@ class __figure__:
     def title(self, title):
         self._title = title
 
-    def plotDataFrame(self, dataframe, xaxis, color=None, rangeselector=False, logscale=False, showroller=True):
+    def plotDataFrame(self, dataframe, xaxis, color=None, rangeselector=False, logscale=False, showroller=True, dateIndex=False):
         self._jsondata = dataframe.to_json()
         self._x_axis = xaxis
         self._rangeselector = rangeselector
         self._logscale = logscale
         self._showroller = showroller
+        self._dateIndex = dateIndex
         if color:
             if isinstance(color, basestring):
     	 	    self._color = [color]
@@ -61,7 +62,7 @@ class __figure__:
             ylabels.extend(labelizer(range(len(y) - len(ylabels))))
 
         # Form dataframe:
-        xlabel = "_x_axis_label_"        
+        xlabel = "_x_axis_label_"
         table = {}
         table[xlabel] = x
         for label,data in zip(ylabels,y):
@@ -80,6 +81,11 @@ class __figure__:
         print self.generateJS()
 
     def generateJS(self):
+        if self._dateIndex:
+            dateWrapper = """            var tempDate = new Date(d[x_col][k]);
+            	        var row = [new Date(tempDate.getTime() + (tempDate.getTimezoneOffset() * 60000))];"""
+        else:
+            dateWrapper = """            var row = [d[x_col][k]];"""
 
         dygraphs = ""
 
@@ -92,7 +98,7 @@ class __figure__:
 	      var out = [];
 	      var i = 0;
 	      for (var k in d[x_col]) {
-	        var row = [d[x_col][k]];
+            """ + dateWrapper + """
 	        columns.forEach(function(col) {
 	          row.push(d[col][k]);
 	        });
@@ -104,7 +110,7 @@ class __figure__:
 	    function handle_output_""" + self._divname + """(out) {
 	      var json = out.content.data['text/plain'];
 	      var data = JSON.parse(eval(json));
-	      var tabular = convertToDataTable_""" + self._divname + """(data);
+          var tabular = convertToDataTable_""" + self._divname + """(data);
 	      """
 
         dygraphs += """
@@ -162,7 +168,7 @@ class __figure__:
 	    var kernel = IPython.notebook.kernel;
 	    var callbacks_""" + self._divname + """ = { 'iopub' : {'output' : handle_output_""" + self._divname + """}};
 	    kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[""" + str(self._fignum) + """]", callbacks_""" + self._divname + """, {silent:false});
-	    </script>
+        </script>
 	    """
         return dygraphs
 
@@ -225,7 +231,7 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
 
     # Display the subplot table:
     display(HTML(javascript))
-    
+
     # Return all the figure handles:
     return figs
 
