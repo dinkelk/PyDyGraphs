@@ -1,10 +1,10 @@
 PyDyGraphs
 -----
-An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Ipython Notebook](http://ipython.org/notebook.html), without the need for any remote hosting.
+An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Jupyter Notebook](https://jupyter.org/), without the need for any remote hosting.
 
 ## Intent
 
-The [Ipython Notebook](http://ipython.org/notebook.html) is an excellent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the [Ipython Notebook](http://ipython.org/notebook.html), interactive javascript plots are often more useful for exploring the data. This module can be readily included in an [Ipython Notebook](http://ipython.org/notebook.html) and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
+The [Jupyter Notebook](https://jupyter.org/) is an excellent tool for interacting with python and displaying data in real time. While tools like [matplotlib](http://matplotlib.org/) can generate static plots in the Jupyter Notebook, interactive javascript plots are often more useful for exploring the data. This module can be readily included in an Jupyter Notebook and then used to generate beautiful time series plots with [Dygraphs](http://dygraphs.com/).
 
 ## Screenshots 
 
@@ -20,12 +20,12 @@ Pandas Dataframe Plot
 
 ## How It Works
 
-This python module generates javascript that interacts with the [Dygraphs](http://dygraphs.com/) library, and passes it to the [Ipython Notebook](http://ipython.org/notebook.html) kernel for execution.
+This python module generates javascript that interacts with the [Dygraphs](http://dygraphs.com/) library, and passes it to the [Jupyter Notebook](https://jupyter.org/) kernel for execution.
 
-Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/) to generate a JSON representation of the data for plotting. This required dependancy may be removed with future work. [Pandas](http://pandas.pydata.org/) can be installed via [pip](https://pypi.python.org/pypi/pip).
+Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/) to generate a JSON representation of the data for plotting. This required dependancy may be removed with future work. Pandas can be installed via [pip](https://pypi.python.org/pypi/pip).
 
 ## Example
-Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into an [Ipython Notebook](http://ipython.org/notebook.html) to generate an interactive timeseries plot:
+Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into an Jupyter Notebook to generate an interactive timeseries plot:
 
     # Import pydygraphs and numpy
     import pydygraphs
@@ -48,7 +48,7 @@ Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into
     fig.show()
 
 ## Installation:
-Simply clone this repository and include the *pydygraphs.py* module in your [Ipython Notebooks](http://ipython.org/notebook.html).
+Simply clone this repository and include the *pydygraphs.py* module in your [Jupyter Notebooks](https://jupyter.org/). *Note: PyDyGraphs only supports Python 3*.
 
 ## Want to contribute:
 Please submit a pull request! Email dinkelk@gmail.com for questions.
