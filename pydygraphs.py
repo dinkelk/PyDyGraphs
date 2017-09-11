@@ -11,7 +11,7 @@ __PYDYGRAPH__DYGRAPHS_LIB_STRING__ = "http://dygraphs.com/dygraph-combined.js"
 
 class __figure__:
     def __init__(self):
-    	global __PYDYGRAPH__FIGURE__NUMBER__
+        global __PYDYGRAPH__FIGURE__NUMBER__
         self._fignum = __PYDYGRAPH__FIGURE__NUMBER__
         self._divname = "Figure" + str(self._fignum)
 
@@ -34,35 +34,34 @@ class __figure__:
     def title(self, title):
         self._title = title
 
-    def plotDataFrame(self, dataframe, xaxis, color=None, rangeselector=False, logscale=False, showroller=True, dateIndex=False):
+    def plotDataFrame(self, dataframe, xaxis, color=None, rangeselector=False, logscale=False, showroller=True):
         self._jsondata = dataframe.to_json()
         self._x_axis = xaxis
         self._rangeselector = rangeselector
         self._logscale = logscale
         self._showroller = showroller
-        self._dateIndex = dateIndex
         if color:
-            if isinstance(color, basestring):
-    	 	    self._color = [color]
+            if isinstance(color, str):
+                self._color = [color]
             else:
                 self._color = color
-    	__PYDYGRAPH__FIGURE__JSON__[self._fignum] = self._jsondata
+        __PYDYGRAPH__FIGURE__JSON__[self._fignum] = self._jsondata
 
 
     def plot(self, x, y=[], ylabels=[], color=None, rangeselector=False, logscale=False, showroller=True):
 
         if not isinstance(y,list):
             y=[y]
-        labelizer = lambda a: (map(lambda x: 'Y' + str(x), a))
+        labelizer = lambda a: (['Y' + str(x) for x in a])
 
         if not ylabels:
-            ylabels = labelizer(range(len(y)))
+            ylabels = labelizer(list(range(len(y))))
 
         if len(ylabels) != len(y):
-            ylabels.extend(labelizer(range(len(y) - len(ylabels))))
+            ylabels.extend(labelizer(list(range(len(y) - len(ylabels)))))
 
         # Form dataframe:
-        xlabel = "_x_axis_label_"
+        xlabel = "_x_axis_label_"        
         table = {}
         table[xlabel] = x
         for label,data in zip(ylabels,y):
@@ -78,40 +77,35 @@ class __figure__:
         display(HTML(javascript))
 
     def printJS(self):
-        print self.generateJS()
+        print ((self.generateJS()))
 
     def generateJS(self):
-        if self._dateIndex:
-            dateWrapper = """            var tempDate = new Date(d[x_col][k]);
-            	        var row = [new Date(tempDate.getTime() + (tempDate.getTimezoneOffset() * 60000))];"""
-        else:
-            dateWrapper = """            var row = [d[x_col][k]];"""
 
         dygraphs = ""
 
         dygraphs += """
-	    <script type="text/javascript">
-	    function convertToDataTable_""" + self._divname + """(d) {
-	      var columns = _.keys(d);
-	      var x_col = '""" + self._x_axis +"""';
-	      columns.splice(columns.indexOf(x_col), 1);  // Get index column. (prob index). Don't need to do this just to plot all
-	      var out = [];
-	      var i = 0;
-	      for (var k in d[x_col]) {
-            """ + dateWrapper + """
-	        columns.forEach(function(col) {
-	          row.push(d[col][k]);
-	        });
-	        out.push(row);
-	      }
-	      return {data:out, labels:[x_col].concat(columns)};
-	    }
+        <script type="text/javascript">
+        function convertToDataTable_""" + self._divname + """(d) {
+          var columns = _.keys(d);
+          var x_col = '""" + self._x_axis +"""';
+          columns.splice(columns.indexOf(x_col), 1);  // Get index column. (prob index). Don't need to do this just to plot all
+          var out = [];
+          var i = 0;
+          for (var k in d[x_col]) {
+            var row = [d[x_col][k]];
+            columns.forEach(function(col) {
+              row.push(d[col][k]);
+            });
+            out.push(row);
+          }
+          return {data:out, labels:[x_col].concat(columns)};
+        }
 
-	    function handle_output_""" + self._divname + """(out) {
-	      var json = out.content.data['text/plain'];
-	      var data = JSON.parse(eval(json));
+        function handle_output_""" + self._divname + """(out) {
+          var json = out.content.data['text/plain'];
+          var data = JSON.parse(eval(json));
           var tabular = convertToDataTable_""" + self._divname + """(data);
-	      """
+          """
 
         dygraphs += """
             g = new Dygraph(document.getElementById('""" + self._divname + """'), tabular.data, {
@@ -121,7 +115,7 @@ class __figure__:
                 rollPeriod: 1,
                 showRoller: true,
                 animatedZooms: true,
-	        """
+            """
 
         if self._showroller:
             dygraphs+= """
@@ -134,7 +128,7 @@ class __figure__:
 
         if self._color:
             dygraphs+= """
-                colors: ["""+string.join(['"'+c+'"' for c in self._color],',')+"""],
+                colors: ["""+','.join(['"'+c+'"' for c in self._color])+"""],
             """
 
         if self._title:
@@ -152,7 +146,7 @@ class __figure__:
         if self._rangeselector:
             dygraphs += """
                 showRangeSelector: true,
-                rangeSelectorHeight: 50,
+                rangeSelectorHeight: 65,
             """
 
         if self._logscale:
@@ -162,14 +156,14 @@ class __figure__:
 
         dygraphs+="""
                labelsDiv: '"""+self._divname+"""_legend',
-	           errorBars: false
-	      })
-	    }
-	    var kernel = IPython.notebook.kernel;
-	    var callbacks_""" + self._divname + """ = { 'iopub' : {'output' : handle_output_""" + self._divname + """}};
-	    kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[""" + str(self._fignum) + """]", callbacks_""" + self._divname + """, {silent:false});
+               errorBars: false
+          })
+        }
+        var kernel = IPython.notebook.kernel;
+        var callbacks_""" + self._divname + """ = { 'iopub' : {'output' : handle_output_""" + self._divname + """}};
+        kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[""" + str(self._fignum) + """]", callbacks_""" + self._divname + """, {silent:false});
         </script>
-	    """
+        """
         return dygraphs
 
 def __create_table_for_pydygraph_figure__(divname, width, height):
@@ -216,10 +210,10 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
 
     # Generate subplot table:
     figs = []
-    for i in xrange(v):
+    for i in range(v):
         javascript += "<tr>"
         temp = []
-        for j in xrange(h):
+        for j in range(h):
             fig = __figure__()
             javascript += """<td style="border-style: hidden;">"""
             javascript += __create_table_for_pydygraph_figure__(fig._divname, figureWidth, figureHeight)
@@ -231,7 +225,7 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
 
     # Display the subplot table:
     display(HTML(javascript))
-
+    
     # Return all the figure handles:
     return figs
 
@@ -241,12 +235,12 @@ def useDygraphsLib(dygraphslib):
     __PYDYGRAPH__DYGRAPHS_LIB_STRING__ = dygraphslib
 
 if __name__ == "__main__":
-	import argparse
-	parser = argparse.ArgumentParser(description='This utility does all of the awesome.')
-	# parser.add_argument('config', metavar='configfile', type=str, help='a SBPP packet definition file to ingest')
-	# parser.add_argument('fname', metavar='binaryfile', type=str, help='a SBPP binary file to ingest')
-	# args = parser.parse_args()
-	a = figure()
-	b = figure()
-	c = figure()
-	d = subfigure(2,2)
+    import argparse
+    parser = argparse.ArgumentParser(description='This utility does all of the awesome.')
+    # parser.add_argument('config', metavar='configfile', type=str, help='a SBPP packet definition file to ingest')
+    # parser.add_argument('fname', metavar='binaryfile', type=str, help='a SBPP binary file to ingest')
+    # args = parser.parse_args()
+    a = figure()
+    b = figure()
+    c = figure()
+#   d = subfigure(2,2)
