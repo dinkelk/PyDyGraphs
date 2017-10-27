@@ -51,4 +51,4 @@ Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into
 Simply clone this repository and include the *pydygraphs.py* module in your [Jupyter Notebooks](https://jupyter.org/). *Note: PyDyGraphs only supports Python 3*.
 
 ## Want to contribute:
-Please submit a pull request! Email dinkelk@gmail.com for questions.
+Please submit a *pull request* or *issue* with any questions you might have!
