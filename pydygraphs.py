@@ -85,9 +85,9 @@ class __figure__:
 
         dygraphs += """
         <script type="text/javascript">
-        function convertToDataTable_""" + self._divname + """(d) {
+        function convertToDataTable_{0}(d) {
           var columns = _.keys(d);
-          var x_col = '""" + self._x_axis +"""';
+          var x_col = '{1}';
           columns.splice(columns.indexOf(x_col), 1);  // Get index column. (prob index). Don't need to do this just to plot all
           var out = [];
           var i = 0;
@@ -101,21 +101,21 @@ class __figure__:
           return {data:out, labels:[x_col].concat(columns)};
         }
 
-        function handle_output_""" + self._divname + """(out) {
+        function handle_output_{0}(out) {
           var json = out.content.data['text/plain'];
           var data = JSON.parse(eval(json));
-          var tabular = convertToDataTable_""" + self._divname + """(data);
-          """
+          var tabular = convertToDataTable_{0}(data);
+          """.format(self._divname, self._x_axis)
 
         dygraphs += """
-            g = new Dygraph(document.getElementById('""" + self._divname + """'), tabular.data, {
+            g = new Dygraph(document.getElementById('{0}'), tabular.data, {
                 legend: 'always',
                 labels: tabular.labels,
                 labelsDivStyles: { 'textAlign': 'right' },
                 rollPeriod: 1,
                 showRoller: true,
                 animatedZooms: true,
-            """
+            """.format(self._divname)
 
         if self._showroller:
             dygraphs+= """
@@ -155,25 +155,25 @@ class __figure__:
             """
 
         dygraphs+="""
-               labelsDiv: '"""+self._divname+"""_legend',
+               labelsDiv: '{0}_legend',
                errorBars: false
           })
         }
         var kernel = IPython.notebook.kernel;
-        var callbacks_""" + self._divname + """ = { 'iopub' : {'output' : handle_output_""" + self._divname + """}};
-        kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[""" + str(self._fignum) + """]", callbacks_""" + self._divname + """, {silent:false});
+        var callbacks_{0} = { 'iopub' : {'output' : handle_output_{0}}};
+        kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[{1}]", callbacks_{0}, {silent:false});
         </script>
-        """
+        """.format(self._divname, self._fignum)
         return dygraphs
 
 def __create_table_for_pydygraph_figure__(divname, width, height):
     return """
-    <script src=\"""" + str(__PYDYGRAPH__DYGRAPHS_LIB_STRING__) + """\"></script>
-    <table style="width: """ + str(width) + """px; border-style: hidden;">
-    <tr><td style="border-style: hidden;"><div id='"""+str(divname)+"""' style="width: """ + str(width) + """px; height: """ + str(height) + """px;"></div></td></tr>
-    <tr><td style="border-style: hidden;"><div style="text-align:right; width: """ + str(width) + """px; height: auto;"; id='"""+str(divname)+"""_legend'></div></td></tr>
+    <script src=\"{0}\"></script>
+    <table style="width: {2}px; border-style: hidden;">
+    <tr><td style="border-style: hidden;"><div id='{1}' style="width: {2}px; height: {3}px;"></div></td></tr>
+    <tr><td style="border-style: hidden;"><div style="text-align:right; width: {2}px; height: auto;"; id='{1}_legend'></div></td></tr>
     </table>
-    """
+    """.format(__PYDYGRAPH__DYGRAPHS_LIB_STRING__, divname, width, height)
 
 def figure(width=1050, height=400):
     ''' This public function returns a pydygraph figure that holds a single plot '''
@@ -196,17 +196,17 @@ def subplot(v=1, h=1, width=1050, height=400, title=None):
     figureWidth = width/h
     figureHeight = height/v
 
-    javascript = """<script src=\"""" + str(__PYDYGRAPH__DYGRAPHS_LIB_STRING__) + """\"></script>
-                    <table style="width: """ + str(width) + """px; border-style: hidden;">"""
+    javascript = """<script src=\"{0}\"></script>
+                    <table style="width: {1}px; border-style: hidden;">""".format(__PYDYGRAPH__DYGRAPHS_LIB_STRING__, width)
 
     # Generate optional subplot title:
     if title:
         javascript += """
                         <tr>
-                            <th COLSPAN='"""+str(h)+"""'>
-                                <h1 align="center">"""+title+"""</h1>
+                            <th COLSPAN='{0}'>
+                                <h1 align="center">{1}</h1>
                             </th>
-                        <tr>"""
+                        <tr>""".format(h, title)
 
     # Generate subplot table:
     figs = []
