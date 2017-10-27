@@ -1,6 +1,6 @@
 PyDyGraphs
 -----
-An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Jupyter Notebook](https://jupyter.org/), without the need for any remote hosting.
+An interactive charting library using [Dygraphs](http://dygraphs.com/) for the [Jupyter Notebook](https://jupyter.org/).
 
 ## Intent
 
