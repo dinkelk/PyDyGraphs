@@ -7,7 +7,6 @@ import pandas as pd
 import sys
 
 __PYDYGRAPH__FIGURE__NUMBER__ = 0
-global __PYDYGRAPH__FIGURE__JSON__
 __PYDYGRAPH__FIGURE__JSON__ = []
 __PYDYGRAPH__DYGRAPHS_LIB_STRING__ = "http://dygraphs.com/dygraph-combined.js"
 
