@@ -119,42 +119,22 @@ class __figure__:
                 animatedZooms: true,
             """%(self._divname)
 
-        if self._showroller:
-            dygraphs+= """
-                showRoller: true,
-            """
-        else:
-            dygraphs+= """
-                showRoller: false,
-            """
+        dygraphs += "showRoller: '{}',".format(str(self._showroller).lower())
 
         if self._color:
             dygraphs+= """
                 colors: ["""+','.join(['"'+c+'"' for c in self._color])+"""],
             """
 
-        if self._title:
-            dygraphs+= """
-                title: '""" + self._title + """',"""
-        if self._xlabel:
-            dygraphs+= """
-                xlabel: '""" + self._xlabel + """',
-            """
-        if self._ylabel:
-            dygraphs+= """
-                ylabel: '""" + self._ylabel + """',
-            """
+        dygraphs += "title: '{}',".format(self._title) if self._title else ""
 
-        if self._rangeselector:
-            dygraphs += """
-                showRangeSelector: true,
-                rangeSelectorHeight: 65,
-            """
+        dygraphs += "xlabel: '{}',".format(self._xlabel) if self._xlabel else ""
 
-        if self._logscale:
-            dygraphs+="""
-                logscale: true,
-            """
+        dygraphs += "ylabel: '{}',".format(self._ylabel) if self._xlabel else ""
+
+        dygraphs += "showRangeSelector: true, rangeSelectorHeight: 65," if self._rangeselector else ""
+
+        dygraphs += "logscale: true," if self._logscale else ""
 
         dygraphs+="""
                labelsDiv: '%(0)s_legend',
