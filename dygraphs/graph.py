@@ -114,26 +114,24 @@ class __figure__:
                 labels: tabular.labels,
                 labelsDivStyles: { 'textAlign': 'right' },
                 rollPeriod: 1,
-                showRoller: true,
                 animatedZooms: true,
             """%(self._divname)
 
-        dygraphs += "showRoller: '{}',".format(str(self._showroller).lower())
 
         if self._color:
             dygraphs+= """
                 colors: ["""+','.join(['"'+c+'"' for c in self._color])+"""],
             """
 
-        dygraphs += "title: '{}',".format(self._title) if self._title else ""
+        textL = lambda x: x if x else ""
+        boolL = lambda x: str(x).lower()
 
-        dygraphs += "xlabel: '{}',".format(self._xlabel) if self._xlabel else ""
-
-        dygraphs += "ylabel: '{}',".format(self._ylabel) if self._xlabel else ""
-
-        dygraphs += "showRangeSelector: true, rangeSelectorHeight: 65," if self._rangeselector else ""
-
-        dygraphs += "logscale: true," if self._logscale else ""
+        dygraphs += """title: '{}',
+        showRoller: {},
+        xlabel: '{}',
+        ylabel: '{}',
+        showRangeSelector: {}, rangeSelectorHeight: 65,
+        logscale: {},""".format(textL(self._title), boolL(self._showroller), textL(self._xlabel), textL(self._ylabel), boolL(self._rangeselector), boolL(self._logscale))
 
         dygraphs+="""
                labelsDiv: '%(0)s_legend',
