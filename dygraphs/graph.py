@@ -4,8 +4,10 @@ from IPython.display import HTML
 from IPython.display import display
 import string
 import pandas as pd
+import sys
 
 __PYDYGRAPH__FIGURE__NUMBER__ = 0
+global __PYDYGRAPH__FIGURE__JSON__
 __PYDYGRAPH__FIGURE__JSON__ = []
 __PYDYGRAPH__DYGRAPHS_LIB_STRING__ = "http://dygraphs.com/dygraph-combined.js"
 
@@ -161,7 +163,7 @@ class __figure__:
         }
         var kernel = IPython.notebook.kernel;
         var callbacks_%(0)s = { 'iopub' : {'output' : handle_output_%(0)s}};
-        kernel.execute("pydygraphs.__PYDYGRAPH__FIGURE__JSON__[%(1)s]", callbacks_%(0)s, {silent:false});
+        kernel.execute("sys.modules['dygraphs.graph'].__PYDYGRAPH__FIGURE__JSON__[%(1)s]", callbacks_%(0)s, {silent:false});
         </script>
         """%{'0':self._divname, '1':self._fignum}
         return dygraphs
