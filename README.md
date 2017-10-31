@@ -28,11 +28,11 @@ Currently the *PyDyGraphs* module depends on [Pandas](http://pandas.pydata.org/)
 Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into an Jupyter Notebook to generate an interactive timeseries plot:
 
     # Import pydygraphs and numpy
-    import pydygraphs
+    import dygraphs.graph as dy
     import numpy as np
 
     # Forma figure
-    fig = pydygraphs.figure(width = 600, height = 400)
+    fig = dy.figure(width = 600, height = 400)
 
     # Generate data for the plot
     x = np.array(range(100))
@@ -48,7 +48,7 @@ Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into
     fig.show()
 
 ## Installation:
-Simply clone this repository and include the *pydygraphs.py* module in your [Jupyter Notebooks](https://jupyter.org/). *Note: PyDyGraphs only supports Python 3*.
+Simply clone this repository and include the *dygraphs.graph* module in your [Jupyter Notebooks](https://jupyter.org/). *Note: PyDyGraphs only supports Python 3*.
 
 ## Want to contribute:
 Please submit a *pull request* or *issue* with any questions you might have!
