@@ -49,6 +49,9 @@ class __figure__:
         if type(y) is not np.ndarray:
             y = np.column_stack(y)
 
+        elif type(y) is np.ndarray and y.shape[0] is not x.shape[0]:
+            y = np.column_stack(y)
+
         self._data = np.column_stack((x, y)).tolist()
         self._options = kwargs
 
