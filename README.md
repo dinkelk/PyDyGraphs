@@ -31,7 +31,7 @@ Run the included example:examples/PyDyGraphTester.ipynb, or paste this code into
     import dygraphs.graph as dy
     import numpy as np
 
-    # Forma figure
+    # Create a figure
     fig = dy.figure(width = 600, height = 400)
 
     # Generate data for the plot
