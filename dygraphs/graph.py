@@ -3,7 +3,8 @@
 from IPython.display import HTML
 from IPython.display import display
 import string
-import pandas as pd
+import numpy as np
+import json
 import sys
 
 __PYDYGRAPH__FIGURE__NUMBER__ = 0
@@ -15,63 +16,44 @@ class __figure__:
         global __PYDYGRAPH__FIGURE__NUMBER__
         self._fignum = __PYDYGRAPH__FIGURE__NUMBER__
         self._divname = "Figure" + str(self._fignum)
-
+        self._data = []
+        self._options = {}
         # Set configurable variable to none:
-        self._color = None
-        self._title = None
-        self._xlabel = None
-        self._ylabel = None
 
         #print "Making figure", self._fignum
         __PYDYGRAPH__FIGURE__NUMBER__ += 1
         __PYDYGRAPH__FIGURE__JSON__.append("")
 
     def xlabel(self, xlabel):
-        self._xlabel = xlabel
+        self._options.update({'xlabel': xlabel})
 
     def ylabel(self, ylabel):
-        self._ylabel = ylabel
+        self._options.update({'ylabel': ylabel})
 
     def title(self, title):
-        self._title = title
+        self._options.update({'title': title})
 
-    def plotDataFrame(self, dataframe, xaxis, color=None, rangeselector=False, logscale=False, showroller=True):
-        self._jsondata = dataframe.to_json()
-        self._x_axis = xaxis
-        self._rangeselector = rangeselector
-        self._logscale = logscale
-        self._showroller = showroller
-        if color:
-            if isinstance(color, str):
-                self._color = [color]
-            else:
-                self._color = color
-        __PYDYGRAPH__FIGURE__JSON__[self._fignum] = self._jsondata
+    def plotDataFrame(self, dataframe, **kwargs):
+
+        self._data = dataframe.values.tolist()
+        self._options = kwargs
+        self._options.update({'labels': dataframe.columns.values.tolist()})
+
+        __PYDYGRAPH__FIGURE__JSON__[self._fignum] = ""
 
 
-    def plot(self, x, y=[], ylabels=[], color=None, rangeselector=False, logscale=False, showroller=True):
+    def plot(self, x=[], y=[], **kwargs):
 
-        if not isinstance(y,list):
-            y=[y]
-        labelizer = lambda a: (['Y' + str(x) for x in a])
+        x = np.array(x)
 
-        if not ylabels:
-            ylabels = labelizer(list(range(len(y))))
+        if type(y) is not np.ndarray:
+            y = np.column_stack(y)
 
-        if len(ylabels) != len(y):
-            ylabels.extend(labelizer(list(range(len(y) - len(ylabels)))))
+        elif type(y) is np.ndarray and y.shape[0] is not x.shape[0]:
+            y = np.column_stack(y)
 
-        # Form dataframe:
-        xlabel = "_x_axis_label_"        
-        table = {}
-        table[xlabel] = x
-        for label,data in zip(ylabels,y):
-            table[label] = data
-
-        dataframe = pd.DataFrame(table)
-
-        # Return plot:
-        return self.plotDataFrame(dataframe, xaxis=xlabel, color=color, rangeselector=rangeselector, logscale=logscale, showroller=showroller)
+        self._data = np.column_stack((x, y)).tolist()
+        self._options = kwargs
 
     def show(self):
         javascript = self.generateJS()
@@ -82,67 +64,22 @@ class __figure__:
 
     def generateJS(self):
 
-        dygraphs = ""
-
-        dygraphs += """
+        dygraphs = """
         <script type="text/javascript">
-        function convertToDataTable_%(0)s(d) {
-          var columns = _.keys(d);
-          var x_col = '%(1)s';
-          columns.splice(columns.indexOf(x_col), 1);  // Get index column. (prob index). Don't need to do this just to plot all
-          var out = [];
-          var i = 0;
-          for (var k in d[x_col]) {
-            var row = [d[x_col][k]];
-            columns.forEach(function(col) {
-              row.push(d[col][k]);
-            });
-            out.push(row);
-          }
-          return {data:out, labels:[x_col].concat(columns)};
-        }
 
         function handle_output_%(0)s(out) {
-          var json = out.content.data['text/plain'];
-          var data = JSON.parse(eval(json));
-          var tabular = convertToDataTable_%(0)s(data);
-          """%{'0':self._divname, '1':self._x_axis}
 
-        dygraphs += """
-            g = new Dygraph(document.getElementById('%s'), tabular.data, {
-                legend: 'always',
-                labels: tabular.labels,
-                labelsDivStyles: { 'textAlign': 'right' },
-                rollPeriod: 1,
-                animatedZooms: true,
-            """%(self._divname)
+            g = new Dygraph(document.getElementById('%(0)s'), %(2)s, 
+            
+            %(3)s
 
-
-        if self._color:
-            dygraphs+= """
-                colors: ["""+','.join(['"'+c+'"' for c in self._color])+"""],
-            """
-
-        textL = lambda x: x if x else ""
-        boolL = lambda x: str(x).lower()
-
-        dygraphs += """title: '{}',
-        showRoller: {},
-        xlabel: '{}',
-        ylabel: '{}',
-        showRangeSelector: {}, rangeSelectorHeight: 65,
-        logscale: {},""".format(textL(self._title), boolL(self._showroller), textL(self._xlabel), textL(self._ylabel), boolL(self._rangeselector), boolL(self._logscale))
-
-        dygraphs+="""
-               labelsDiv: '%(0)s_legend',
-               errorBars: false
-          })
+            );
         }
         var kernel = IPython.notebook.kernel;
         var callbacks_%(0)s = { 'iopub' : {'output' : handle_output_%(0)s}};
         kernel.execute("sys.modules['dygraphs.graph'].__PYDYGRAPH__FIGURE__JSON__[%(1)s]", callbacks_%(0)s, {silent:false});
-        </script>
-        """%{'0':self._divname, '1':self._fignum}
+        </script>"""%{'0':self._divname, '1':self._fignum, '2':json.dumps(self._data), '3':json.dumps(self._options)}
+
         return dygraphs
 
 def __create_table_for_pydygraph_figure__(divname, width, height):
